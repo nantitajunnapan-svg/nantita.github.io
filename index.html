@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Journey &amp; Letter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#352d28;--muted:#786f66;--paper:#fffdf8;--line:#e7ddd0;--accent:#a94e32;--accent-dark:#873b26}
+*{box-sizing:border-box}
+body,button,input,textarea{font-family:"Prompt",sans-serif}
+body{margin:0;background:#f5f0e8;color:var(--ink)}
+button,input,textarea{font-size:1rem}button{cursor:pointer}
+:focus-visible{outline:3px solid #bd7255;outline-offset:3px}
+.page{max-width:1100px;margin:auto;padding:48px 24px 70px}
+.hero{text-align:center;margin-bottom:36px}
+.eyebrow{color:var(--accent);font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.25;margin:14px 0 12px;letter-spacing:-.04em}
+.intro{color:var(--muted);margin:0 auto;max-width:560px;line-height:1.8}
+.layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.8fr);gap:24px;align-items:start}
+.card{background:var(--paper);border:1px solid var(--line);box-shadow:0 15px 40px rgba(75,51,33,.05);border-radius:20px}
+.letter{padding:34px}.side{padding:28px}
+h2{font-size:1.25rem;margin:0 0 6px}
+.small{color:var(--muted);font-size:.83rem;margin:0 0 26px}
+.field{margin-bottom:24px}
+label{display:block;font-weight:600;font-size:.94rem;margin-bottom:9px}
+.optional{font-weight:400;color:var(--muted)}
+input[type=text],textarea{width:100%;border:1px solid #dcd1c4;border-radius:11px;background:#fff;color:var(--ink);padding:13px 15px;outline:none}
+input[type=text]:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #a94e3220}
+textarea{min-height:230px;resize:vertical;line-height:1.8}
+::placeholder{color:#a3998f}
+.hint{color:var(--muted);font-size:.79rem;margin:7px 0 0;line-height:1.6}
+.upload{border:1px dashed #ccb9a6;background:#fcf8f2;border-radius:12px;padding:16px}
+input[type=file]{width:100%;font-size:.85rem}
+.privacy{display:flex;gap:13px;align-items:flex-start;background:#f8f3eb;border-radius:12px;padding:16px}
+.privacy input{accent-color:var(--accent);width:18px;height:18px;margin:3px 0 0;flex:none}
+.privacy label{margin:0;cursor:pointer}.privacy .hint{margin-top:2px}
+.submit{width:100%;border:0;border-radius:11px;background:var(--accent);color:#fff;padding:15px 18px;font-weight:600;margin-top:24px}
+.submit:hover{background:var(--accent-dark)}.submit:disabled{opacity:.7;cursor:wait}
+.status{min-height:24px;font-size:.88rem;margin:14px 0 0;line-height:1.6}
+.status.error{color:#a52c2c}.status.success{color:#2c7554}.status.pending{color:#855e28}
+.side p{color:var(--muted);line-height:1.85;font-size:.91rem;margin:0 0 15px}
+.side strong{color:var(--ink)}
+footer{text-align:center;padding-top:30px;color:#92877b;font-size:.8rem}
+@media(max-width:760px){.page{padding:32px 16px 48px}.layout{grid-template-columns:1fr}.letter{padding:23px 19px}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <div class="eyebrow">a journey to letter for someone</div>
+    <h1>Journey &amp; Letter</h1>
+    <p class="intro">หากคำพูดนั้นยากเกินจะเอ่ย...ฝากพวกเราให้เป็นตัวแทนจดหมายของคุณ</p>
+  </header>
+  <main>
+    <div class="layout">
+      <section class="card letter" aria-labelledby="form-title">
+        <h2 id="form-title">เขียนจดหมายของคุณ</h2>
+        <p class="small">พื้นที่เล็ก ๆ สำหรับข้อความที่มีความหมาย</p>
+        <form id="letter-form" novalidate>
+          <div class="field">
+            <label for="sender-name">ชื่อผู้ส่ง <span class="optional">(ไม่บังคับ)</span></label>
+            <input id="sender-name" type="text" maxlength="120" placeholder="ชื่อหรือชื่อเล่นของคุณ">
+          </div>
+          <div class="field">
+            <label for="letter-content">เนื้อหาจดหมาย *</label>
+            <textarea id="letter-content" required maxlength="20000" placeholder="ถึงคุณ... วันนี้มีเรื่องที่อยากเล่าให้ฟัง"></textarea>
+          </div>
+          <div class="field">
+            <label for="letter-image">แนบรูปภาพ <span class="optional">(ไม่บังคับ)</span></label>
+            <div class="upload"><input id="letter-image" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></div>
+            <p class="hint">รองรับ JPG, PNG, WebP, GIF ขนาดไม่เกิน 10 MB</p>
+          </div>
+          <div class="field">
+            <label for="recipient">ถึงใคร *</label>
+            <input id="recipient" type="text" required maxlength="200" placeholder="ชื่อคนที่คุณอยากส่งจดหมายถึง">
+          </div>
+          <div class="privacy">
+            <input id="disclose-name" type="checkbox" checked>
+            <div>
+              <label for="disclose-name">เปิดเผยชื่อผู้ส่ง</label>
+              <p class="hint">ปิดตัวเลือกนี้หากต้องการเก็บชื่อเป็นความลับ</p>
+            </div>
+          </div>
+          <button id="submit-button" class="submit" type="submit">ส่งจดหมาย</button>
+          <p id="form-status" class="status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+      <aside class="card side">
+        <h2>จดหมายทุกฉบับมีความหมาย</h2>
+        <p>เขียนได้ในแบบของคุณ ไม่จำเป็นต้องใช้คำสวยงาม แค่เป็น <strong>ความรู้สึกจริง ๆ</strong> ก็เพียงพอแล้ว</p>
+      </aside>
+    </div>
+  </main>
+  <footer>เขียนด้วยใจ ส่งด้วยความตั้งใจ ✦</footer>
+</div>
+<script>
+// ใส่ลิงก์ /exec ล่าสุดจาก Deploy ของ Apps Script ตรงนี้
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzf83KZMDzlyWXcdXKYHaOIkB3yL20DdGgHvH3WZUY_xe0OOfxFeaYsKK21wyqEcjzw/exec';
+const MAX_BYTES = 10 * 1024 * 1024;
+const TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+const $ = id => document.getElementById(id);
+const form = $('letter-form'), statusEl = $('form-status'), btn = $('submit-button'), fileEl = $('letter-image');
+
+function setStatus(msg, kind) { statusEl.textContent = msg; statusEl.className = 'status ' + (kind || ''); }
+
+function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(String(r.result).split(',')[1] || '');
+    r.onerror = () => reject(new Error('อ่านรูปภาพไม่สำเร็จ'));
+    r.readAsDataURL(file);
+  });
+}
+
+fileEl.addEventListener('change', () => {
+  const f = fileEl.files[0];
+  if (!f) return;
+  if (!TYPES.includes(f.type)) { setStatus('กรุณาเลือกรูป JPG, PNG, WebP หรือ GIF', 'error'); fileEl.value = ''; }
+  else if (f.size > MAX_BYTES) { setStatus('รูปภาพต้องมีขนาดไม่เกิน 10 MB', 'error'); fileEl.value = ''; }
+  else setStatus('', '');
+});
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  if (btn.disabled) return;
+  const senderName = $('sender-name').value.trim();
+  const letterContent = $('letter-content').value.trim();
+  const recipient = $('recipient').value.trim();
+  const discloseSenderName = $('disclose-name').checked;
+  const file = fileEl.files[0];
+
+  if (!letterContent) { setStatus('กรุณาเขียนเนื้อหาจดหมาย', 'error'); $('letter-content').focus(); return; }
+  if (!recipient) { setStatus('กรุณาระบุผู้รับ', 'error'); $('recipient').focus(); return; }
+  if (file && (!TYPES.includes(file.type) || file.size > MAX_BYTES)) { setStatus('กรุณาเลือกรูปภาพที่รองรับและมีขนาดไม่เกิน 10 MB', 'error'); return; }
+
+  btn.disabled = true; btn.textContent = 'กำลังส่งจดหมาย...';
+  setStatus('กำลังส่งจดหมาย กรุณารอสักครู่ (ถ้าแนบรูปอาจใช้เวลาสักครู่)', 'pending');
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 90000);
+  try {
+    const payload = { senderName, letterContent, recipient, discloseSenderName };
+    if (file) payload.image = { fileName: file.name, mimeType: file.type, base64: await toBase64(file) };
+
+    // text/plain ทำให้ไม่เกิด CORS preflight ซึ่ง Apps Script ไม่รองรับ
+    const res = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+      redirect: 'follow',
+      signal: ctrl.signal
+    });
+    if (!res.ok) throw new Error('เซิร์ฟเวอร์ตอบกลับผิดพลาด (' + res.status + ')');
+    let result;
+    try { result = await res.json(); }
+    catch (_) { throw new Error('เซิร์ฟเวอร์ไม่ได้ตอบเป็นข้อมูลที่ถูกต้อง ตรวจสอบว่า Deploy ตั้งสิทธิ์เป็น "ทุกคน"'); }
+    if (result.success !== true) throw new Error(result.message || 'เซิร์ฟเวอร์ไม่สามารถบันทึกจดหมายได้');
+
+    form.reset(); $('disclose-name').checked = true;
+    setStatus('ส่งจดหมายสำเร็จ ขอบคุณที่แบ่งปันความรู้สึกของคุณ', 'success');
+  } catch (err) {
+    const msg = err.name === 'AbortError' ? 'ใช้เวลานานเกินไป' : (err.message || 'ส่งจดหมายไม่สำเร็จ');
+    setStatus(msg + ' — โปรดตรวจสอบชีตก่อนลองส่งซ้ำ', 'error');
+  } finally {
+    clearTimeout(timer);
+    btn.disabled = false; btn.textContent = 'ส่งจดหมาย';
+  }
+});
+</script>
+</body>
+</html>
